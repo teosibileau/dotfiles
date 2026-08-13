@@ -65,7 +65,30 @@ if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
   echo "cloning tpm (tmux plugin manager)"
   mkdir -p "$HOME/.tmux/plugins"
   git clone -q https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
-  echo "tpm installed; press prefix + I inside tmux to fetch plugins"
+fi
+
+# Fetch the plugins listed in tmux.conf. install_plugins needs a running
+# server and skips anything already present, so this is safe to re-run.
+if command -v tmux >/dev/null 2>&1; then
+  echo
+  echo "installing tmux plugins"
+  tmux start-server
+  tmux source-file "$HOME/.tmux.conf" 2>/dev/null || true
+  "$HOME/.tmux/plugins/tpm/bin/install_plugins"
+else
+  echo
+  echo "tmux not found; skipping tmux plugins"
+fi
+
+# Install neovim plugins at the versions pinned in nvim/lazy-lock.json,
+# rather than waiting for the first interactive launch.
+if command -v nvim >/dev/null 2>&1; then
+  echo
+  echo "installing neovim plugins (lazy restore)"
+  nvim --headless "+Lazy! restore" +qa 2>&1 | tail -3 || true
+else
+  echo
+  echo "nvim not found; skipping neovim plugins"
 fi
 
 if command -v pipx >/dev/null 2>&1; then

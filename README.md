@@ -19,9 +19,11 @@ Antigen clones oh-my-zsh and plugins automatically on first shell start.
 
 ## tmux and neovim
 
-`tmux.conf` and the `nvim/` LazyVim config are symlinked into place. `install.sh`
-clones tpm if missing; press `prefix + I` inside tmux once to fetch tmux plugins.
-Neovim plugins install themselves on first launch, pinned by `nvim/lazy-lock.json`.
+`tmux.conf` and the `nvim/` LazyVim config are symlinked into place, and
+`install.sh` installs their plugins too: tpm plus everything in `tmux.conf`
+(resurrect, continuum), and the neovim plugins at the exact commits pinned in
+`nvim/lazy-lock.json` via `Lazy! restore`. No manual `prefix + I` needed, and
+nothing is left to install on first launch.
 
 ## Python CLI tools
 
