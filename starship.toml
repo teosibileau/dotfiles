@@ -1,0 +1,55 @@
+format = """
+$custom$directory$git_branch$git_status
+$character"""
+
+[custom.neovim]
+command = """echo ${NVIM_V:-} 2>/dev/null || true"""
+when = """test -n "$NVIM_V" """
+format = "[$output]($style) "
+style = "italic bold #7aa2f7"
+symbol = "  "
+
+[character]
+success_symbol = "[❯](bold #9ece6a)"
+error_symbol = "[❯](bold #f7768e)"
+vimcmd_symbol = "[❯](bold #9ece6a)"
+
+[directory]
+style = "bold #7aa2f7"
+truncation_length = 3
+truncation_symbol = "…/"
+
+[git_branch]
+symbol = " "
+style = "bold #bb9af7"
+format = "[$symbol$branch]($style) "
+
+[git_status]
+style = "bold #9ece6a"
+format = "[$all_status$ahead_behind]($style) "
+conflicted = "!"
+untracked = "?"
+modified = "~"
+staged = "+"
+renamed = "»"
+deleted = "-"
+
+[nodejs]
+format = "[$symbol($version)]($style) "
+style = "bold #9ece6a"
+symbol = "  "
+
+[python]
+format = "[${symbol}(${version} \\($virtualenv\\))]($style) "
+style = "bold #9ece6a"
+symbol = "  "
+
+[rust]
+format = "[$symbol($version)]($style) "
+style = "bold #e0af68"
+symbol = "  "
+
+[cmd_duration]
+min_time = 500
+format = "took [$duration]($style) "
+style = "bold #7aa2f7"
