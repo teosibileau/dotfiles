@@ -49,6 +49,8 @@ link antigen.zsh "$HOME/antigen.zsh"
 link starship.toml "$HOME/.config/starship.toml"
 link tmux.conf "$HOME/.tmux.conf"
 link nvim "$HOME/.config/nvim"
+# File, not dir: opencode also keeps plugins and node_modules in that directory.
+link opencode.json "$HOME/.config/opencode/opencode.json"
 
 # Brew first: later steps need the tools it provides (pipx, git, tmux, nvim).
 if [ "$RUN_BREW" -eq 1 ]; then

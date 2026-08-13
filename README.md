@@ -32,6 +32,13 @@ missing, and left alone otherwise since both self-update. Neither is in the
 Brewfile because neither is distributed through Homebrew. Authentication is
 per-machine: run `claude` and `opencode auth login` once after installing.
 
+`opencode.json` carries the opencode settings worth having everywhere (theme:
+tokyonight) and is symlinked to `~/.config/opencode/opencode.json`. Only that
+one file is linked, since opencode keeps plugins and `node_modules` in the same
+directory. Picking a theme from the TUI writes to
+`~/.local/state/opencode/kv.json` instead, which is machine-local runtime state
+and stays out of the repo; the config file is the reproducible way to set it.
+
 ## Python CLI tools
 
 `pipx-packages.txt` lists the Python CLIs wanted on every machine. `install.sh`
