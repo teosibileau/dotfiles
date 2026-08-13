@@ -10,7 +10,7 @@ RUN_BREW=1
 for arg in "$@"; do
   case "$arg" in
     --no-brew) RUN_BREW=0 ;;
-    *) echo "unknown option: $arg (usage: $0 [--no-brew])" >&2; exit 2 ;;
+    *) echo "❌ unknown option: $arg (usage: $0 [--no-brew])" >&2; exit 2 ;;
   esac
 done
 
@@ -24,9 +24,9 @@ if [ "$RUN_BREW" -eq 1 ]; then
     done
   fi
   if ! command -v brew >/dev/null 2>&1; then
-    echo "Homebrew not found." >&2
-    echo "Install it first: https://brew.sh" >&2
-    echo "Or re-run with --no-brew to only symlink configs." >&2
+    echo "❌ Homebrew not found." >&2
+    echo "   Install it first: https://brew.sh" >&2
+    echo "   Or re-run with --no-brew to only symlink configs." >&2
     exit 1
   fi
 fi
@@ -37,12 +37,13 @@ link() {
   mkdir -p "$(dirname "$dst")"
   if [ -e "$dst" ] && [ ! -L "$dst" ]; then
     mv "$dst" "$dst.pre-dotfiles"
-    echo "backed up $dst -> $dst.pre-dotfiles"
+    echo "   💾 backed up $dst -> $dst.pre-dotfiles"
   fi
   ln -sfn "$src" "$dst"
-  echo "linked $dst -> $src"
+  echo "   🔗 $dst -> $src"
 }
 
+echo "🔗 Symlinking configs"
 link zshrc "$HOME/.zshrc"
 link antigen.zsh "$HOME/antigen.zsh"
 link starship.toml "$HOME/.config/starship.toml"
@@ -52,17 +53,17 @@ link nvim "$HOME/.config/nvim"
 # Brew first: later steps need the tools it provides (pipx, git, tmux, nvim).
 if [ "$RUN_BREW" -eq 1 ]; then
   echo
-  echo "running brew bundle"
+  echo "🍺 Homebrew packages"
   brew bundle --file "$DOTFILES/Brewfile"
 else
   echo
-  echo "skipping brew bundle (--no-brew)"
+  echo "🍺 Homebrew packages: skipped (--no-brew)"
 fi
 
 # tmux plugin manager: .tmux.conf expects it at ~/.tmux/plugins/tpm
 if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
   echo
-  echo "cloning tpm (tmux plugin manager)"
+  echo "   ⬇️  cloning tpm (tmux plugin manager)"
   mkdir -p "$HOME/.tmux/plugins"
   git clone -q https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
 fi
@@ -71,42 +72,43 @@ fi
 # server and skips anything already present, so this is safe to re-run.
 if command -v tmux >/dev/null 2>&1; then
   echo
-  echo "installing tmux plugins"
+  echo "🖥️  tmux plugins"
   tmux start-server
   tmux source-file "$HOME/.tmux.conf" 2>/dev/null || true
   "$HOME/.tmux/plugins/tpm/bin/install_plugins"
 else
   echo
-  echo "tmux not found; skipping tmux plugins"
+  echo "🖥️  tmux plugins: skipped (tmux not found)"
 fi
 
 # Install neovim plugins at the versions pinned in nvim/lazy-lock.json,
 # rather than waiting for the first interactive launch.
 if command -v nvim >/dev/null 2>&1; then
   echo
-  echo "installing neovim plugins (lazy restore)"
+  echo "📝 neovim plugins (lazy restore)"
   nvim --headless "+Lazy! restore" +qa 2>&1 | tail -3 || true
 else
   echo
-  echo "nvim not found; skipping neovim plugins"
+  echo "📝 neovim plugins: skipped (nvim not found)"
 fi
 
 if command -v pipx >/dev/null 2>&1; then
   echo
+  echo "🐍 Python CLI tools"
   installed=$(pipx list --short 2>/dev/null | cut -d' ' -f1)
   grep -v '^[[:space:]]*\(#\|$\)' "$DOTFILES/pipx-packages.txt" | while read -r pkg; do
     if echo "$installed" | grep -qix "$pkg"; then
-      echo "pipx: $pkg already installed"
+      echo "   ✅ $pkg already installed"
     else
-      echo "pipx: installing $pkg"
+      echo "   ⬇️  installing $pkg"
       pipx install "$pkg"
     fi
   done
 else
   echo
-  echo "pipx not found; skipping Python CLI tools (see pipx-packages.txt)"
+  echo "🐍 Python CLI tools: skipped (pipx not found)"
 fi
 
 echo
-echo "Done. Optional next step:"
+echo "🎉 Done. Optional next step:"
 echo "  touch ~/.zshrc.local   # machine-local secrets/overrides"
