@@ -158,7 +158,8 @@ export PATH=$HOME/.opencode/bin:$PATH
 # Machine-local secrets and overrides (not in the dotfiles repo)
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# fzf key bindings and completion (Ctrl-R history, Ctrl-T files, Alt-C cd)
+command -v fzf >/dev/null && source <(fzf --zsh)
 alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
 
 #   -----------------------------
