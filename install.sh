@@ -20,6 +20,22 @@ link zshrc "$HOME/.zshrc"
 link antigen.zsh "$HOME/antigen.zsh"
 link starship.toml "$HOME/.config/starship.toml"
 
+if command -v pipx >/dev/null 2>&1; then
+  echo
+  installed=$(pipx list --short 2>/dev/null | cut -d' ' -f1)
+  grep -v '^[[:space:]]*\(#\|$\)' "$DOTFILES/pipx-packages.txt" | while read -r pkg; do
+    if echo "$installed" | grep -qix "$pkg"; then
+      echo "pipx: $pkg already installed"
+    else
+      echo "pipx: installing $pkg"
+      pipx install "$pkg"
+    fi
+  done
+else
+  echo
+  echo "pipx not found; skipping Python CLI tools (see pipx-packages.txt)"
+fi
+
 echo
 echo "Done. Optional next steps:"
 echo "  brew bundle --file $DOTFILES/Brewfile   # install CLI tools"

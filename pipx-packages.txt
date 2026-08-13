@@ -1,0 +1,6 @@
+# Python CLI tools installed with pipx on every machine.
+# One package spec per line; blank lines and # comments ignored.
+pipenv
+poetry
+pre-commit
+virtualenv
