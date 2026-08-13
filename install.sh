@@ -81,12 +81,18 @@ else
   echo "🖥️  tmux plugins: skipped (tmux not found)"
 fi
 
-# Install neovim plugins at the versions pinned in nvim/lazy-lock.json,
-# rather than waiting for the first interactive launch.
+# Install neovim plugins now rather than on first interactive launch.
+# lazy-lock.json is untracked, so a fresh clone has no pins to restore from:
+# install what the config asks for, and restore pins only when they exist.
 if command -v nvim >/dev/null 2>&1; then
   echo
-  echo "📝 neovim plugins (lazy restore)"
-  nvim --headless "+Lazy! restore" +qa 2>&1 | tail -3 || true
+  if [ -f "$DOTFILES/nvim/lazy-lock.json" ]; then
+    echo "📝 neovim plugins (lazy restore)"
+    nvim --headless "+Lazy! restore" +qa 2>&1 | tail -3 || true
+  else
+    echo "📝 neovim plugins (lazy install)"
+    nvim --headless "+Lazy! install" +qa 2>&1 | tail -3 || true
+  fi
 else
   echo
   echo "📝 neovim plugins: skipped (nvim not found)"

@@ -1,2 +1,3 @@
 .zshrc.local
 *.pre-dotfiles
+nvim/lazy-lock.json
