@@ -19,6 +19,17 @@ link() {
 link zshrc "$HOME/.zshrc"
 link antigen.zsh "$HOME/antigen.zsh"
 link starship.toml "$HOME/.config/starship.toml"
+link tmux.conf "$HOME/.tmux.conf"
+link nvim "$HOME/.config/nvim"
+
+# tmux plugin manager: .tmux.conf expects it at ~/.tmux/plugins/tpm
+if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
+  echo
+  echo "cloning tpm (tmux plugin manager)"
+  mkdir -p "$HOME/.tmux/plugins"
+  git clone -q https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
+  echo "tpm installed; press prefix + I inside tmux to fetch plugins"
+fi
 
 if command -v pipx >/dev/null 2>&1; then
   echo

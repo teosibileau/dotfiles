@@ -4,6 +4,8 @@ brew "fzf"
 brew "pyenv"
 brew "pyenv-virtualenv"
 brew "pipx"
+brew "tmux"
+brew "neovim"
 
 # Libraries referenced by PATH/LDFLAGS in zshrc (install as needed per machine)
 # brew "ruby"

@@ -12,6 +12,12 @@ brew bundle --file ~/dotfiles/Brewfile
 
 Antigen clones oh-my-zsh and plugins automatically on first shell start.
 
+## tmux and neovim
+
+`tmux.conf` and the `nvim/` LazyVim config are symlinked into place. `install.sh`
+clones tpm if missing; press `prefix + I` inside tmux once to fetch tmux plugins.
+Neovim plugins install themselves on first launch, pinned by `nvim/lazy-lock.json`.
+
 ## Python CLI tools
 
 `pipx-packages.txt` lists the Python CLIs wanted on every machine. `install.sh`
