@@ -7,8 +7,13 @@ zsh setup: antigen + oh-my-zsh bundles + starship prompt.
 ```sh
 git clone <repo-url> ~/dotfiles
 ~/dotfiles/install.sh
-brew bundle --file ~/dotfiles/Brewfile
 ```
+
+Homebrew must already be installed (https://brew.sh); the script checks for it
+and stops rather than installing it. `install.sh` symlinks the configs, runs
+`brew bundle`, clones tpm, and installs the pipx tools. Note that `brew bundle`
+also upgrades formulas in the Brewfile that are out of date. Pass `--no-brew` to
+symlink configs only.
 
 Antigen clones oh-my-zsh and plugins automatically on first shell start.
 
