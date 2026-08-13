@@ -25,6 +25,13 @@ Antigen clones oh-my-zsh and plugins automatically on first shell start.
 `nvim/lazy-lock.json` via `Lazy! restore`. No manual `prefix + I` needed, and
 nothing is left to install on first launch.
 
+## Agent CLIs
+
+Claude Code and opencode are installed from their official installers when
+missing, and left alone otherwise since both self-update. Neither is in the
+Brewfile because neither is distributed through Homebrew. Authentication is
+per-machine: run `claude` and `opencode auth login` once after installing.
+
 ## Python CLI tools
 
 `pipx-packages.txt` lists the Python CLIs wanted on every machine. `install.sh`

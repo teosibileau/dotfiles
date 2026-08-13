@@ -115,6 +115,26 @@ else
   echo "🐍 Python CLI tools: skipped (pipx not found)"
 fi
 
+# Agent CLIs, each via its own official installer. Both self-update after
+# this, so only install when the binary is missing.
 echo
-echo "🎉 Done. Optional next step:"
+echo "🤖 Agent CLIs"
+if [ -x "$HOME/.local/bin/claude" ] || command -v claude >/dev/null 2>&1; then
+  echo "   ✅ claude already installed"
+else
+  echo "   ⬇️  installing claude code"
+  curl -fsSL https://claude.ai/install.sh | bash
+fi
+
+if [ -x "$HOME/.opencode/bin/opencode" ] || command -v opencode >/dev/null 2>&1; then
+  echo "   ✅ opencode already installed"
+else
+  echo "   ⬇️  installing opencode"
+  curl -fsSL https://opencode.ai/install | bash
+fi
+
+echo
+echo "🎉 Done. Optional next steps:"
 echo "  touch ~/.zshrc.local   # machine-local secrets/overrides"
+echo "  claude    # sign in"
+echo "  opencode auth login"
