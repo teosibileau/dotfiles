@@ -129,6 +129,15 @@ if command -v colima >/dev/null 2>&1; then
   echo
   echo "🐳 Container runtime"
 
+  # brew puts the compose plugin under its own prefix, which the docker CLI does
+  # not search, so `docker compose` is not found without this link.
+  compose_plugin="$(brew --prefix 2>/dev/null)/lib/docker/cli-plugins/docker-compose"
+  if [ -x "$compose_plugin" ] && [ ! -e "$HOME/.docker/cli-plugins/docker-compose" ]; then
+    mkdir -p "$HOME/.docker/cli-plugins"
+    ln -sfn "$compose_plugin" "$HOME/.docker/cli-plugins/docker-compose"
+    echo "   🔗 linked docker compose plugin"
+  fi
+
   if [ -d "/Applications/Docker.app" ]; then
     echo "   ⚠️  Docker Desktop is installed; leaving colima stopped."
     echo "      Desktop's CLI shadows the brew one, so both would fight over"

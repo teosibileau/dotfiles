@@ -5,6 +5,12 @@
 # NOTE: this is a template for instances that do not exist yet. Editing it does
 # not reconfigure a running VM. To pick up changes: colima delete && colima start
 
+# Required explicitly: when a template file exists colima reads these from it
+# rather than falling back to its built-in defaults, and an empty runtime is a
+# fatal error on start.
+runtime: docker
+arch: host
+
 # Defaults are 2/2, which is not enough for a Supabase-sized compose stack.
 cpu: 4
 memory: 8

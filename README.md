@@ -53,6 +53,10 @@ mounts, and `rosetta: true` for linux/amd64 images. It is a template for VMs
 that do not exist yet: editing it does not reconfigure a running VM, which needs
 `colima delete && colima start`.
 
+brew installs the compose plugin under its own prefix, which the docker CLI does
+not search, so `install.sh` links it into `~/.docker/cli-plugins`. Without that
+link `docker compose` reports "unknown command".
+
 `install.sh` checks for Docker Desktop first. If `/Applications/Docker.app` is
 present it starts nothing and explains how to switch, because Desktop owns
 `/usr/local/bin/docker` as a symlink into its app bundle and `/usr/local/bin`
