@@ -1,0 +1,25 @@
+# Template for new colima instances, symlinked to ~/.colima/_templates/default.yaml
+# so `colima start` needs no flags. Only the values that differ from colima's
+# defaults are listed; everything else falls back to the built-in default.
+#
+# NOTE: this is a template for instances that do not exist yet. Editing it does
+# not reconfigure a running VM. To pick up changes: colima delete && colima start
+
+# Defaults are 2/2, which is not enough for a Supabase-sized compose stack.
+cpu: 4
+memory: 8
+disk: 100
+
+# vz is Apple's native Virtualization.framework: faster to boot and lighter than
+# qemu. virtiofs is the matching mount type and is the reason bind mounts are
+# not painfully slow. virtiofs requires vz.
+vmType: vz
+mountType: virtiofs
+
+# Run linux/amd64 images at native-ish speed on Apple Silicon. Needed because
+# the Kamal deploys build for amd64 servers. Requires vmType vz.
+rosetta: true
+
+# No k3s: nothing here uses kubernetes, and it costs boot time and memory.
+kubernetes:
+  enabled: false

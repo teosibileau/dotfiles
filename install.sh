@@ -51,6 +51,8 @@ link tmux.conf "$HOME/.tmux.conf"
 link nvim "$HOME/.config/nvim"
 # File, not dir: opencode also keeps plugins and node_modules in that directory.
 link opencode.json "$HOME/.config/opencode/opencode.json"
+# Template for new colima VMs, so `colima start` needs no flags.
+link colima.yaml "$HOME/.colima/_templates/default.yaml"
 
 # Brew first: later steps need the tools it provides (pipx, git, tmux, nvim).
 if [ "$RUN_BREW" -eq 1 ]; then
@@ -115,6 +117,47 @@ if command -v pipx >/dev/null 2>&1; then
 else
   echo
   echo "🐍 Python CLI tools: skipped (pipx not found)"
+fi
+
+# Container runtime. Docker Desktop and colima can both be installed at once,
+# but Desktop owns /usr/local/bin/docker as a symlink into its app bundle, and
+# /usr/local/bin precedes /opt/homebrew/bin in PATH, so while Desktop is present
+# it shadows the brew docker CLI. Rather than fight that, detect Desktop and
+# report the situation instead of changing it: removing Desktop is a decision
+# for a human, not a side effect of running this script.
+if command -v colima >/dev/null 2>&1; then
+  echo
+  echo "🐳 Container runtime"
+
+  if [ -d "/Applications/Docker.app" ]; then
+    echo "   ⚠️  Docker Desktop is installed; leaving colima stopped."
+    echo "      Desktop's CLI shadows the brew one, so both would fight over"
+    echo "      which daemon 'docker' talks to. To switch over:"
+    echo "        colima start && docker context use colima"
+    echo "      To go back:  docker context use desktop-linux"
+    echo "      Once you are happy with colima, uninstall Desktop from its own"
+    echo "      Troubleshoot panel so it removes its symlinks and helper."
+  elif colima status >/dev/null 2>&1; then
+    echo "   ✅ colima already running"
+  elif colima list -j 2>/dev/null | grep -q '"name"'; then
+    echo "   ▶️  starting existing colima VM"
+    colima start
+  else
+    echo "   ⬇️  creating colima VM (cpu/memory/disk from colima.yaml)"
+    colima start
+  fi
+
+  # Desktop's credential helper disappears with the app, taking registry logins
+  # with it. Flag the stale setting rather than rewriting a file docker owns.
+  if [ ! -d "/Applications/Docker.app" ] &&
+     grep -q '"credsStore"[[:space:]]*:[[:space:]]*"desktop"' "$HOME/.docker/config.json" 2>/dev/null; then
+    echo "   ⚠️  ~/.docker/config.json still uses the 'desktop' credential store,"
+    echo "      which no longer exists. Set it to \"osxkeychain\" and re-run:"
+    echo "        docker login registry.gitlab.com"
+  fi
+else
+  echo
+  echo "🐳 Container runtime: skipped (colima not found)"
 fi
 
 # Agent CLIs, each via its own official installer. Both self-update after
