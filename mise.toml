@@ -8,6 +8,7 @@
 [tools]
 python = "3.13"
 node = "lts"
+bun = "latest"
 ruby = "latest"
 
 # Python CLI tools. The pipx: backend shells out to `uv tool install` when uv

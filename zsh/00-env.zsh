@@ -16,28 +16,16 @@ _path_prepend "/usr/local/bin"
 _path_prepend "$HOME/.local/bin"
 _path_prepend "$HOME/.opencode/bin"
 
-export GPG_TTY=$(tty)
-export EDITOR="nvim"
+# Rust stays on rustup rather than mise: both want to own the toolchain, and
+# rustup wins on component management. Omarchy makes the same exception.
+_path_prepend "$HOME/.cargo/bin"
 
-# ---------------------------------------------------------------------------
-# Runtime version managers. mise replaces all of this; see the migration plan.
-# Kept working until mise is installed and verified, then deleted wholesale.
-# ---------------------------------------------------------------------------
-export PYENV_ROOT="$HOME/.pyenv"
-_path_prepend "$PYENV_ROOT/bin"
-
+# bun itself comes from mise, but packages installed with `bun install -g`
+# land here rather than under mise's prefix, so this stays on PATH.
 export BUN_INSTALL="$HOME/.bun"
 _path_prepend "$BUN_INSTALL/bin"
 
-_path_prepend "$HOME/.cargo/bin"
-
-# Ruby exists on this machine to host Kamal. Glob the gems bindir rather than
-# hardcoding a version, which used to break on every ruby minor bump.
-_path_prepend "/opt/homebrew/opt/ruby/bin"
-for _gemdir in /opt/homebrew/lib/ruby/gems/*/bin(N); do
-  _path_prepend "$_gemdir"
-done
-unset _gemdir
-# --------------------------------------------------------------------- end --
+export GPG_TTY=$(tty)
+export EDITOR="nvim"
 
 export PATH

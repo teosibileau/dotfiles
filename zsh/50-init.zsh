@@ -4,9 +4,10 @@
 # Everything here is guarded, so this file is inert on a machine that has none
 # of these tools rather than an error on every shell start.
 
-# mise manages python, node, and ruby. `activate` installs a precmd hook that
-# rewrites PATH per directory, rather than pyenv-style shims, so `which python`
-# resolves to a real binary. Needs `unsetopt hashcmds` from 10-shell.zsh.
+# mise manages python, node, bun and ruby, plus the Python CLI tools and kamal.
+# `activate` installs a precmd hook that rewrites PATH per directory, rather
+# than pyenv-style shims, so `which python` resolves to a real binary. Relies
+# on `unsetopt hashcmds` from 10-shell.zsh.
 command -v mise >/dev/null && eval "$(mise activate zsh)"
 
 command -v starship >/dev/null && eval "$(starship init zsh)"
@@ -14,9 +15,5 @@ command -v starship >/dev/null && eval "$(starship init zsh)"
 # fzf key bindings: Ctrl-R history, Ctrl-T files, Alt-C cd.
 command -v fzf >/dev/null && source <(fzf --zsh)
 
-# ---------------------------------------------------------------------------
-# Replaced by mise; see the migration plan. Deleted once mise is verified.
-# ---------------------------------------------------------------------------
-command -v pyenv >/dev/null && eval "$(pyenv init -)"
+# bun's own completions, written by its installer.
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
-# --------------------------------------------------------------------- end --
