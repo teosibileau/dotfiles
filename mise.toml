@@ -1,0 +1,37 @@
+# Runtimes and Python CLI tools, symlinked to ~/.config/mise/config.toml.
+#
+# This file is the whole story: every machine gets everything listed here, and
+# `mise install` is the entire provisioning step. There are deliberately no
+# per-machine install flags, because that would make the installed set a
+# property of the machine rather than of this repo.
+
+[tools]
+python = "3.13"
+node = "lts"
+bun = "latest"
+ruby = "latest"
+
+# Python CLI tools. The pipx: backend shells out to `uv tool install` when uv
+# is on PATH, so pipx itself is not required.
+"pipx:poetry" = "latest"      # 50 projects here use it
+"pipx:pre-commit" = "latest"  # 40 .pre-commit-config.yaml files here
+"pipx:yt-dlp" = "latest"      # called by the ytwa function
+"pipx:pgcli" = "latest"
+
+# Ruby exists on this machine solely to host Kamal, which deploys throwline
+# and MOVE. There is no Rails here and no project with a .ruby-version.
+"gem:kamal" = "latest"
+
+[settings]
+# Read the existing .python-version files rather than requiring a mise.toml in
+# every project. All 13 of them contain plain version strings, so they work
+# untouched. mise does not read these formats unless asked.
+idiomatic_version_file_enable_tools = ["python", "ruby"]
+
+# Pull precompiled Ruby instead of building it from source, which is what
+# omarchy does. Building ruby takes minutes and needs a toolchain.
+ruby.compile = false
+
+# Explicit rather than relying on the default, since uv being present is a
+# hard requirement for the pipx: entries above to resolve at all.
+pipx.uvx = true
