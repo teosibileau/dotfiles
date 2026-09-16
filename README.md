@@ -75,6 +75,21 @@ when it sees the stale value but does not rewrite a file docker owns.
 installs any that are missing (and skips the step entirely if pipx is absent, so
 run `brew bundle` first). Add a line to that file to add a tool everywhere.
 
+## Obsidian
+
+The vault itself is not part of dotfiles, only its settings. `install.sh` links
+the portable files from `obsidian/` into `<vault>/.obsidian`: app, appearance,
+hotkeys, core and community plugin lists, snippets and themes. The vault path
+defaults to `~/NOTES/Notes`; set `OBSIDIAN_VAULT` in `~/.zshrc.local` to change
+it. The step skips itself if the vault is missing or Obsidian is running, since
+Obsidian rewrites those files on quit and would replace the links.
+
+Files are linked one by one rather than the whole directory because Obsidian
+writes `workspace.json` and `plugins/` alongside them. Those hold open tabs,
+recent files and plugin data (sometimes API keys) and stay machine-local.
+`community-plugins.json` only records which plugins are enabled; on a new
+machine install them once from Settings, and Obsidian picks up the list.
+
 ## Commits
 
 Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/):
