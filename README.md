@@ -75,6 +75,14 @@ when it sees the stale value but does not rewrite a file docker owns.
 installs any that are missing (and skips the step entirely if pipx is absent, so
 run `brew bundle` first). Add a line to that file to add a tool everywhere.
 
+## Commits
+
+Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/):
+`type(scope): summary`, with the scope naming the tool touched (`zsh`, `nvim`,
+`tmux`, `brew`, `mise`, `install`). Types in use: `feat`, `fix`, `refactor`,
+`docs`, `chore`. Commits before this rule was adopted do not follow it and are
+left as they are.
+
 ## Machine-local config
 
 Secrets and per-machine overrides go in `~/.zshrc.local` (sourced if present,
