@@ -17,3 +17,6 @@ command -v fzf >/dev/null && source <(fzf --zsh)
 
 # bun's own completions, written by its installer.
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+
+# Railway CLI, installed by its own installer into ~/.railway.
+[ -f "$HOME/.railway/env" ] && source "$HOME/.railway/env"
