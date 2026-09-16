@@ -42,3 +42,6 @@ brew "docker-credential-helper"
 # brew "zbar"     # pyzbar
 # brew "qt@5"     # PyQt5
 # brew "ruby"     # only needed if kamal moves off mise
+
+# GUI apps.
+cask "obsidian"
