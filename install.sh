@@ -54,6 +54,23 @@ link opencode.json "$HOME/.config/opencode/opencode.json"
 # Template for new colima VMs, so `colima start` needs no flags.
 link colima.yaml "$HOME/.colima/_templates/default.yaml"
 
+# Obsidian keeps per-vault settings in <vault>/.obsidian. Only the portable
+# files are linked, one by one: Obsidian writes workspace.json and plugins/
+# into the same directory, and those are machine state, not config. The vault
+# path is per-machine; set OBSIDIAN_VAULT in ~/.zshrc.local to override.
+OBSIDIAN_VAULT="${OBSIDIAN_VAULT:-$HOME/NOTES/Notes}"
+echo
+if [ ! -d "$OBSIDIAN_VAULT" ]; then
+  echo "📓 Obsidian: skipped (no vault at $OBSIDIAN_VAULT)"
+elif pgrep -xq Obsidian; then
+  echo "📓 Obsidian: skipped (quit Obsidian first, it overwrites the links on exit)"
+else
+  echo "📓 Obsidian settings -> $OBSIDIAN_VAULT/.obsidian"
+  for f in app.json appearance.json hotkeys.json core-plugins.json community-plugins.json snippets themes; do
+    link "obsidian/$f" "$OBSIDIAN_VAULT/.obsidian/$f"
+  done
+fi
+
 # Brew first: later steps need the tools it provides (pipx, git, tmux, nvim).
 if [ "$RUN_BREW" -eq 1 ]; then
   echo
