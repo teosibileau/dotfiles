@@ -51,5 +51,10 @@ brew "mole"
 brew "tidymymac"
 brew "ncdu"
 
+# MQTT. lazymqtt is a TUI broker browser (topics, messages, publish), the
+# terminal replacement for MQTT Explorer. mosquitto supplies mosquitto_sub/pub.
+brew "lazymqtt"
+brew "mosquitto"
+
 # GUI apps.
 cask "obsidian"
