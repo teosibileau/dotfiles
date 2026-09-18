@@ -43,5 +43,13 @@ brew "docker-credential-helper"
 # brew "qt@5"     # PyQt5
 # brew "ruby"     # only needed if kamal moves off mise
 
+# Disk cleanup. Names are easy to forget, so they live here:
+#   mo         mole: deep clean of caches, logs, dev leftovers (`mo` or `mole`)
+#   tidymymac  interactive TUI for finding and removing large junk
+#   ncdu       ncurses disk usage browser, for finding what is eating space
+brew "mole"
+brew "tidymymac"
+brew "ncdu"
+
 # GUI apps.
 cask "obsidian"

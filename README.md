@@ -90,6 +90,14 @@ recent files and plugin data (sometimes API keys) and stay machine-local.
 `community-plugins.json` only records which plugins are enabled; on a new
 machine install them once from Settings, and Obsidian picks up the list.
 
+## Disk cleanup
+
+Three tools, all in the Brewfile, in the order to reach for them:
+
+- `ncdu ~` to see what is taking space.
+- `mo` (mole) for a deep clean of caches, logs and dev leftovers.
+- `tidymymac` for an interactive pass over the remaining large junk.
+
 ## Commits
 
 Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/):
