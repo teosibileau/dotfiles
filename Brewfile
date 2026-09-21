@@ -2,6 +2,7 @@
 tap "scottfelder/lazymqtt"
 tap "viniciussouzao/tap"
 tap "basecamp/tap"
+tap "rcieri/glab-tui"
 
 # Icon glyphs for starship, yazi and neovim status lines.
 cask "font-symbols-only-nerd-font"
@@ -38,6 +39,8 @@ brew "glab"
 brew "act"
 brew "gitlab-ci-local"
 brew "git-filter-repo"  # rewrite history, replaces git filter-branch
+brew "tuicr"            # code review TUI, vim keys, for local diffs and PRs
+brew "glab-tui"         # k9s-style TUI over glab/gh: issues, MRs, pipelines
 
 # Containers: colima runs the VM and daemon but supplies no client, so the
 # docker CLI and the compose plugin come separately. docker-credential-helper
